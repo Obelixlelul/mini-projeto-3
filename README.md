@@ -2,6 +2,13 @@
 
 Trabalho para a disciplina de WEBII do curso de graduação em Tecnologia da Informação - Universidade Federal do RN
 
+## Como rodar a aplicação
+Você precisa ter instalado globalmente as seguintes aplicações
+> Node
+> NPM 
+> Typescript
+> Nodemon
+
 
 ### Você precisará criar um arquivo .env com os seguintes dados
 ```
@@ -14,3 +21,6 @@ MYSQL_PORT = 3306
 ```
 ### Use o arquivo .sql com o script para criar o banco
 
+## Como iniciar o servidor
+```
+$ npm run start-dev
