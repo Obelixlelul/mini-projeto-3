@@ -12,4 +12,5 @@ MYSQL_USER =
 MYSQL_PASSWD =
 MYSQL_PORT = 3306
 ```
+### Use o arquivo .sql com o script para criar o banco
 

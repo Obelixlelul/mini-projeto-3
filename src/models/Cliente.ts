@@ -17,5 +17,5 @@ export const Cliente = sequelize.define<ClienteInstance>('Cliente', {
     nome: DataTypes.STRING
 }, {
     tableName: 'cliente',
-    timestamps: false
+    timestamps: false,
 });

@@ -1,0 +1,57 @@
+import {Request, Response} from 'express';
+import { Produto } from '../models/Produto';
+import { Estoque } from '../models/Estoque';
+
+
+export const create = async (req: Request, res: Response) => {
+    
+    let {descricao, preco} = req.body;
+    
+    let novoProduto = await Produto.create({
+        descricao, preco
+    })
+
+    let existeNoEstoque = await Estoque.findOne({
+        where: {produto_id: novoProduto.id}
+    });
+
+    if (!existeNoEstoque){
+        let addEstoque = await Estoque.create({
+            produto_id: novoProduto.id,
+            quantidade: 1
+        });
+    }
+    
+    res.json({
+        id: novoProduto.id,
+        descricao,
+        preco
+    });
+}
+
+export const update = async (req: Request, res: Response) => {
+
+    let { id } = req.params;
+    let {preco, descricao} = req.body;
+
+    let produto = await Produto.findByPk(id);
+
+    if (produto) {
+
+        produto.descricao = descricao ?? produto.descricao;
+        produto.preco = preco ?? produto.preco;
+        await produto.save();
+        
+        res.json({
+            produto
+        });
+
+    } else {
+
+        res.json({
+            error: 'Produto não encontrado'
+        })
+        
+    } 
+
+}
