@@ -2,6 +2,21 @@ import {Request, Response} from 'express';
 import { Produto } from '../models/Produto';
 import { Estoque } from '../models/Estoque';
 
+export const read = async (req: Request, res: Response) => {
+    
+    let produtos = await Produto.findAll({raw: true});
+    
+    if (produtos) {
+        res.status(200).json({
+            produtos
+        });
+    } else {
+        res.status(404).json({
+            error: "Não foi possível encontrar os produtos!"
+        })
+    }
+
+}
 
 export const create = async (req: Request, res: Response) => {
     
@@ -18,7 +33,7 @@ export const create = async (req: Request, res: Response) => {
     if (!existeNoEstoque){
         let addEstoque = await Estoque.create({
             produto_id: novoProduto.id,
-            quantidade: 1
+            quantidade: 0
         });
     }
     
@@ -29,6 +44,10 @@ export const create = async (req: Request, res: Response) => {
     });
 }
 
+/**
+ * Implemente uma requisição para que campos específicos do produto possam
+ * ser atualizados (Patch).
+ */
 export const update = async (req: Request, res: Response) => {
 
     let { id } = req.params;

@@ -4,7 +4,7 @@ import { Produto, ProdutoInstance } from '../models/Produto';
 
 export interface EstoqueInstance extends Model {
     produto_id: number;
-    quantidade: number;
+    quantidade: number | any;
     Produto: ProdutoInstance
 }
 

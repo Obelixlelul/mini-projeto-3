@@ -24,3 +24,7 @@ MYSQL_PORT = 3306
 ## Como iniciar o servidor
 ```
 $ npm run start-dev
+
+## Requisições
+As requisições foram feitas usando o Indomnia
+Há um arquivo denominado "Insomnia_2022-11-06" 
