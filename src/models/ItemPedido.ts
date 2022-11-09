@@ -1,6 +1,7 @@
 import { Model, DataTypes } from 'sequelize';
 import { sequelize } from '../instances/mysql';
 import { Pedido } from '../models/Pedido';
+import { Produto } from './Produto';
 
 export interface ItemPedidoInstance extends Model {
     pedido_id: number,
@@ -10,20 +11,27 @@ export interface ItemPedidoInstance extends Model {
 
 export const ItemPedido = sequelize.define<ItemPedidoInstance>('ItemPedido', {
     pedido_id: {
-        primaryKey: true,
-        type: DataTypes.INTEGER
+        type: DataTypes.INTEGER,
+        references: {
+            model: Pedido,
+            key: "id"
+        },
     },
-    produto_id: DataTypes.INTEGER,
+    produto_id:{
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        references: {
+            model: Produto,
+            key: "id"
+        }
+    } ,
     quantidade: DataTypes.INTEGER
 }, {
     tableName: 'item_pedido',
     timestamps: false,
 })
 
-Pedido.hasMany(ItemPedido, {
-    foreignKey: 'pedido_id'
-});
+Pedido.belongsToMany(Produto, {through: ItemPedido, foreignKey: "pedido_id"});
+Produto.belongsToMany(Pedido, {through: ItemPedido, foreignKey: "produto_id"});
 
-ItemPedido.belongsTo(Pedido, {
-    foreignKey: 'pedido_id'
-});
+

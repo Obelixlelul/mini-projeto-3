@@ -1,7 +1,10 @@
+import { raw } from 'body-parser';
 import {Request, Response} from 'express';
+import { where } from 'sequelize';
 import { Cliente } from '../models/Cliente'
 import { ItemPedido } from '../models/ItemPedido';
 import { Pedido } from '../models/Pedido'
+import { Produto } from '../models/Produto';
 
 /**
  * Implemente uma requisição que receba o id de um cliente e retorne os dados
@@ -12,12 +15,35 @@ import { Pedido } from '../models/Pedido'
 export const select = async (req: Request, res: Response) => {
     let {id} = req.params;
     
-    let cliente = await Cliente.findByPk(id, {
-        include: {all: true, nested: true}
+    // let cliente = await Cliente.findAll({
+    //     raw: true,
+    //     nest: true,
+    //     where: {id},
+    //     include: {
+    //         model: Pedido, 
+    //         include: [{
+    //             model: ItemPedido,
+    //             attributes: ["produto_id", "quantidade"],
+    //         }],
+    //         attributes: ["data_pedido", "status", "total"],
+    //     },    
+    // });
+
+
+    let cliente = await Cliente.findAll({
+        where: {id},
+        include: {
+            model: Pedido,
+            include: [{model: Produto}]
+        }
     });
 
-    if(cliente)
-    console.log(cliente.pedido);
+    // let pedido = await Pedido.findAll({
+    //     include: {
+    //         model: Produto,
+    //     }
+    // });
+    
 
     res.status(200).json({
         cliente

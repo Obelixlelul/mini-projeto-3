@@ -1,7 +1,8 @@
 import { Model, DataTypes } from 'sequelize';
 import { sequelize } from '../instances/mysql';
 import { Cliente } from '../models/Cliente'
-import {ItemPedidoInstance} from '../models/ItemPedido'
+import {ItemPedido, ItemPedidoInstance} from '../models/ItemPedido'
+import { Produto } from './Produto';
 
 export interface PedidoInstance extends Model {
     id: number,
@@ -26,10 +27,5 @@ export const Pedido = sequelize.define<PedidoInstance>('Pedido', {
     timestamps: false,
 })
 
-Cliente.hasMany(Pedido, {
-    foreignKey: 'cliente_id'
-});
 
-Pedido.belongsTo(Cliente, {
-    foreignKey: 'cliente_id'
-});
+
